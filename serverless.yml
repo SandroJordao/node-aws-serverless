@@ -1,5 +1,5 @@
 
-service: distribuidor-client-api
+service: api-node
 
 provider:
   name: aws
@@ -15,9 +15,9 @@ provider:
     AWS_S3_EXPIRES_URL: ${env:AWS_S3_EXPIRES_URL}
   stackTags:
     Application: API_Client
-    Owner: Distribuidor
-    Project: Distribuidor
-    Team: Distribuidor
+    Owner: api-node
+    Project: api-node
+    Team: api-node
     VS: VS Franqueado
   iam:
     role:

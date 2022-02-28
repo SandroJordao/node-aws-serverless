@@ -24,7 +24,7 @@ module.exports = {
 		"body": '{' +
 			'"client_key": "69zhxxOhPYSryL7eUKX6oPEMe4Gpw7JZ",' +
 			'"uuid": "28b11ae9-aa6c-4be3-966b-a1ca35893060-1",' +
-			'"bucketName": "distribuidor-file-tag-homologation",' + 
+			'"bucketName": "api-node-file-tag-homologation",' + 
 			'"objectKey": "gera-nf/v1/2021-08-31T17:17:02.194Z_28b11ae9-aa6c-4be3-966b-a1ca35893060-1.json"' +
 		'}'
 	},

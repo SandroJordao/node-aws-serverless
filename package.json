@@ -2,7 +2,7 @@
   "name": "distributor-client-api",
   "version": "1.0.0",
   "description": "Client API.",
-  "author": "Grupo Boticário",
+  "author": "Sandro Jordão",
   "scripts": {
     "test": "jest --coverage",
     "debug": "node --inspect=0.0.0.0 ../../node_modules/serverless/bin/serverless.js offline start --stage dev",

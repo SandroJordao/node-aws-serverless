@@ -1,11 +1,11 @@
 swagger: "2.0"
 info:
-  description: Serverless solution to package client-api.
+  description: Serverless solution to package.
   version: 1.0.0
-  title: API Client
+  title: NODE AWS
   contact:
-    email: alex.ishihara@grupoboticario.com.br
-host: dapi-distribuidor.grupoboticario.digital
+    email: contato@sandrojordao.com.br
+host: www.sandrojordao.com.br/node-aws-serverless
 basePath: /dev/
 tags:
   - name: client
@@ -180,4 +180,4 @@ definitions:
         type: string
 externalDocs:
   description: GitHub Repository
-  url: https://github.com/grupoboticario/distribuidor
+  url: https://github.com/SandroJordao/node-aws-serverless
