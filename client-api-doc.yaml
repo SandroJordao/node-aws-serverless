@@ -1,0 +1,183 @@
+swagger: "2.0"
+info:
+  description: Serverless solution to package client-api.
+  version: 1.0.0
+  title: API Client
+  contact:
+    email: alex.ishihara@grupoboticario.com.br
+host: dapi-distribuidor.grupoboticario.digital
+basePath: /dev/
+tags:
+  - name: client
+    description: View messages of the client
+schemes:
+  - https
+paths:
+  /messages/:
+    get:
+      tags:
+        - client
+      summary: Returns an Array of messages
+      description: Returns an Array of messages by Type message, filtered by Date start and Date end of sending the message from the client
+      operationId: listMessages
+      produces:
+        - application/json
+      parameters:
+        - name: client_key
+          in: query
+          description: Client identifier of the message that needs to be search
+          required: true
+          type: string
+        - name: type
+          in: query
+          description: Type of the message that needs to be search
+          required: true
+          type: string
+        - name: start
+          in: query
+          description: Start date of the message that needs to be search
+          required: true
+          type: string
+        - name: end
+          in: query
+          description: End date of the message that needs to be search
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: Limit message api return
+          required: false
+          type: integer
+        - name: skip
+          in: query
+          description: Skip number of message api need skip
+          required: false
+          type: integer
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/ApiClientGetResponse'
+        "400":
+          description: Invalid value in {name_field} or field {name_field} required is not found
+        "401":
+          description: API key is missing or invalid
+        "404":
+          description: Message not found
+        "500":
+          description: Internal Server Error
+      security:
+        - ApiKeyAuth: []
+  /messages/{id}:
+    get:
+      tags:
+        - client
+      summary: Returns a specific Message
+      description: Returns a message filtered by ID
+      operationId: getMessage
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          description: ID of the message that needs to be search
+          required: true
+          type: string
+        - name: client_key
+          in: query
+          description: Client identifier of the message that needs to be search
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/ApiClientGetResponse'
+        "400":
+          description: Invalid value in {name_field} or field {name_field} required is not found
+        "401":
+          description: API key is missing or invalid
+        "404":
+          description: Message not found
+        "500":
+          description: Internal Server Error
+      security:
+        - ApiKeyAuth: []
+  /signurl/:
+    post:
+      tags:
+        - client
+      summary: Returns a signed URL
+      description: For the URL to be created successfully, it is necessary to respect the message body pattern
+      operationId: signUrl
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          description: ID and Client Key information for creation
+          required: true
+          schema:
+            $ref: '#/definitions/ApiClientSingURLBody'
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/ApiClientSingURLResponse'
+        "400":
+          description: Invalid value in {name_field} or field {name_field} required is not found
+        "401":
+          description: API key is missing or invalid
+        "404":
+          description: Message not found
+        "500":
+          description: Internal Server Error
+      security:
+        - ApiKeyAuth: []
+securityDefinitions:
+  ApiKeyAuth:
+    type: apiKey
+    name: api_key
+    in: header
+definitions:
+  ApiClientGetResponse:
+    type: array
+    items:
+      $ref: '#/definitions/ApiClientGetResponse_inner'
+  ApiClientGetResponse_inner:
+    type: object
+    properties:
+      attributes.name:
+        type: array
+        items:
+          type: string
+      clientSecret:
+        type: string
+      clientKey:
+        type: string
+      webhooks:
+        type: array
+        items:
+          type: string
+      type:
+        type: string
+  ApiClientSingURLBody:
+    type: object
+    properties:
+      uuid:
+        type: string
+      clientKey:
+        type: string
+      bucketName:
+        type: string
+      objectKey:
+        type: string
+  ApiClientSingURLResponse:
+    type: object
+    properties:
+      url:
+        type: string
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/grupoboticario/distribuidor

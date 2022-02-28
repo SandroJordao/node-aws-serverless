@@ -1,0 +1,56 @@
+
+service: distribuidor-client-api
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${env:STAGE}
+  region: ${env:AWS_REGION}
+  memorySize: ${env:MEMORY_SIZE}
+  timeout: ${env:TIMEOUT}
+  environment:
+    NODE_ENV: ${env:STAGE}
+    AWS_DYNAMO_TABLE_WEBHOOK: ${env:AWS_DYNAMO_TABLE_WEBHOOK}
+    AWS_DYNAMO_TABLE_LOGS: ${env:AWS_DYNAMO_TABLE_LOGS}
+    AWS_S3_EXPIRES_URL: ${env:AWS_S3_EXPIRES_URL}
+  stackTags:
+    Application: API_Client
+    Owner: Distribuidor
+    Project: Distribuidor
+    Team: Distribuidor
+    VS: VS Franqueado
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+          Resource:
+            - ${env:AWS_S3_BUCKET_NAME_ARN}
+            - ${env:AWS_S3_BUCKET_NAME_ARN}/*
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+          Resource:
+            - "arn:aws:dynamodb:${env:AWS_REGION}:*:table/${env:AWS_DYNAMO_TABLE_LOGS}"
+            - "arn:aws:dynamodb:${env:AWS_REGION}:*:table/${env:AWS_DYNAMO_TABLE_LOGS}/index/*"
+
+plugins:
+  - serverless-offline
+  - serverless-newrelic-lambda-layers
+
+custom:
+  newRelic:
+    accountId: ${env:ACCOUNT_ID_NR}
+    apiKey: ${env:API_KEY_NR}
+    enableIntegration: ${env:ENABLE_INTEGRATION_NR}
+    logEnabled: ${env:LOG_ENABLE_NR}
+    cloudWatchFilter: ${env:CLOUD_WATCH_FILTER_NR}
+
+package:
+  individually: true
+
+functions:
+  - ${file(functions.yml)}

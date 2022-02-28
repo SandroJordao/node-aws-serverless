@@ -1,0 +1,28 @@
+
+list-messages:
+  handler: src/index.listMessages
+  events:
+    - http:
+        path: /messages
+        method: get
+        # private: true
+
+get-message:
+  handler: src/index.getMessage
+  events:
+    - http:
+        path: /messages/{id}
+        method: get
+        request:
+          parameters:
+            paths:
+              id: true
+        # private: true
+
+sign-url:
+  handler: src/index.signUrl
+  events:
+    - http:
+        path: /signurl
+        method: post
+        # private: true
